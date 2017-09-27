@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Header, Content, List,Title,Icon, ListItem,Segment,Button, Left, Body, 
   Right, Thumbnail, Text } from 'native-base';
-import {  AppRegistry, StyleSheet,ListView} from 'react-native';
+import {  AppRegistry, StyleSheet,ListView,BackHandler,ToastAndroid} from 'react-native';
 import firebaseApp from './Firebase';
 import MessageScreen from './MessageScreen';
 
@@ -16,6 +16,7 @@ export default class ChatScreen extends Component {
   super(props);
   this.state = {     
     errors: [],
+    count:0,
     dataSource: new ListView.DataSource({
       rowHasChanged: (row1, row2) => row1 !== row2,
     })
@@ -58,6 +59,7 @@ listenForItems(userRef,ChatwithRef) {
 
 componentDidMount() {
   this.listenForItems(this.userRef,this.ChatwithRef);
+  // BackHandler.addEventListener('hardwareBackPress', this.onBackPress.bind(this));
 }
 
 _renderItem(Userdata) {
@@ -71,6 +73,27 @@ _renderItem(Userdata) {
       </ListItem>
     );  
 }
+
+// componentWillUnmount() {
+// BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+// this.setState({
+//   count:0,
+// });
+// return true;
+// }
+// onBackPress(){
+//   if(this.state.count==0){
+//   ToastAndroid.showWithGravity('Press Back again to exit', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
+//   this.setState({
+//     count:1
+//   });
+//   setTimeout(() => {this.setState({count:0})}, 3000);
+//   return true; }
+//   else{
+//  BackHandler.exitApp()
+//  return false;
+// //   }
+// }
   
   render() {
     return (

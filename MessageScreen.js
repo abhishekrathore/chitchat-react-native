@@ -1,10 +1,10 @@
 import React from 'react';
 import { Container, Header,Footer,FooterTab,Body,Title,Content,Card,CardItem,Form,Item,Input,Label,Button,
 Icon,Text,View,Div,Left,Right,ListItem ,Thumbnail,} from 'native-base';
-import {  AppRegistry, StyleSheet,TouchableOpacity,ListView} from 'react-native';
+import {  AppRegistry, StyleSheet,TouchableOpacity,ListView,BackHandler} from 'react-native';
 import firebaseApp from './Firebase';
 import InvertibleScrollView from 'react-native-invertible-scroll-view';
-
+import { NavigationActions } from 'react-navigation'
 var user = firebaseApp.auth().currentUser;
 export default class MessageScreen extends React.Component {
   static navigationOptions = ({ navigation }) => ({
@@ -129,7 +129,23 @@ if(Rkey.toLowerCase()>=Ukey.toLowerCase()){
   componentDidMount() {
     this.listenForItems(this.chatRef);
   }
-  
+  // componentWillMount(){
+  //   BackHandler.addEventListener('hardwareBackPress',()=>{   
+  //     if (!this.onMainScreen()) {
+  //       this.goBack();
+  //       return true;
+  //     }
+  //     return false;
+  //   });
+  // }
+  // componentWillUnmount() {
+  //   BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+  //   return true;
+  //   }
+  //   onBackPress(){
+  //     this.props.navigation.navigate('Main');
+  //    return true;
+  //   }
   _renderItem(msg)
    { 
     var userId = firebaseApp.auth().currentUser.uid;

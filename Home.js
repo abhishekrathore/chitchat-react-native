@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import {  AppRegistry, StyleSheet, Navigator, View,Image,TextInput,ScrollView,ActivityIndicator} from 'react-native';
+import {  AppRegistry, StyleSheet, Navigator, View,Image,ToastAndroid,TextInput,ScrollView,ActivityIndicator,BackHandler} from 'react-native';
 import { Container,Body, Form, Item,Input, Label,Button, Text ,Header,
-   Content,Left, Right, Icon} from 'native-base';
+   Content,Left, Right, Icon, Toast} from 'native-base';
    import { StackNavigator,} from 'react-navigation';
    import MainScreen from './MainScreen';
    import SignInScreen from './SignInScreen';
@@ -77,9 +77,25 @@ alert('Enter Email and Password');
       errors: [],
       hght:0,
       opac:0,
+      showToast: false,
+      count:0
     }
   }
-
+  componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.onBackPress.bind(this));
+}
+componentWillUnmount() {
+  BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+  this.setState({
+    count:0,
+  })
+}
+onBackPress(){
+ 
+ BackHandler.exitApp()
+ return false;
+  
+}
   render() {
     const { navigate } = this.props.navigation;
     return (
@@ -102,12 +118,15 @@ alert('Enter Email and Password');
             LOGIN
           </Text>
         </Button>
+
+        <View style={styles.overlay}>
         <ActivityIndicator
-        color='white'
-        animating={this.state.animating}
-        style={{height:this.state.hght,opacity:this.state.opac}}
-        size="large"
-      />
+          color='white'
+          animating={this.state.animating}
+          style={{height:this.state.hght,opacity:this.state.opac}}
+          size={100}
+        />
+  </View>
          
         <Text></Text>
         <View >
@@ -137,6 +156,17 @@ var styles = StyleSheet.create({
     borderColor: 'white',
    
   },
+  overlay: {
+    flex: 1,
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    position: 'absolute',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  } ,
   button :{
     fontWeight:'bold',
   //  fontSize:25,

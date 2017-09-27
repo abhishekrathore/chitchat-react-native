@@ -2,7 +2,7 @@ import React from 'react';
 import {
   Container, Header, Footer, Body, Title, Content, Card, CardItem, Form, Item, Label,
   Button, Icon, Text} from 'native-base';
-import { StyleSheet, TextInput, Image,ScrollView,View,ActivityIndicator} from 'react-native';
+import { StyleSheet, TextInput, Image,ScrollView,View,ActivityIndicator,BackHandler} from 'react-native';
 import { StackNavigator, } from 'react-navigation';
 import HomeScreen from './Home';
 import MainScreen from './MainScreen';
@@ -207,7 +207,19 @@ export default class SignInScreen extends React.Component {
     }
     else
     { alert('Password do not match'); }
-  }      
+  } 
+  componentWillUnmount(){
+    this.setState({hght:0,opac:0});
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+  } 
+  componentDidMount() {
+    // this.listenForItems(this.chatRef);
+    BackHandler.addEventListener('hardwareBackPress', this.onBackPress.bind(this));
+  }
+    onBackPress(){
+     this.props.navigation.navigate('Home');
+     return true;
+    }    
   render() {
     const { navigate } = this.props.navigation;
     return (
@@ -227,12 +239,14 @@ export default class SignInScreen extends React.Component {
        <TextInput placeholder="Confirm Password" placeholderTextColor="white" secureTextEntry transparent style={[styles.inputbox, this.state.password2css && styles.emptyBox]} 
            onChangeText={(password2) => this.setState({ password2 })} value={this.state.password2} />
 
+           <View style={styles.overlay}>
            <ActivityIndicator
-        color='white'
-        animating={this.state.animating}
-        style={{height:this.state.hght,opacity:this.state.opac}}
-        size="large"
-      />
+             color='gray'
+             animating={this.state.animating}
+             style={{height:this.state.hght,opacity:this.state.opac}}
+             size={100}
+           />
+     </View>
 
             <Button rounded bordered style={styles.button} onPress={() => this.signup(this.state.name,this.state.age,
                  this.state.phone,this.state.email,this.state.password1,this.state.password2,this.state.avatarSource)}>
@@ -279,6 +293,17 @@ var styles = StyleSheet.create({
       //borderWidth:2,
       borderBottomWidth:2, 
     },
+    overlay: {
+      flex: 1,
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+      position: 'absolute',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+    } ,
      Image: {
       // justifyContent :'center',
        flex:1,

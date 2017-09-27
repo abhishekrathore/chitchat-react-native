@@ -4,14 +4,30 @@ import {
   View,
   TouchableOpacity,
   StyleSheet,
+  BackHandler
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import ParallaxView from 'react-native-parallax-view';
-
+import { NavigationActions } from 'react-navigation'
 export default class ProfileScreen extends React.Component {
     static navigationOptions = ({ navigation }) => ({
     header:null,
     });
+    // componentDidMount() {
+    //   // this.listenForItems(this.chatRef);
+    //   BackHandler.addEventListener('hardwareBackPress', this.onBackPress.bind(this));
+    //   return false;
+    // }
+    // componentWillUnmount() {
+    //   BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+    //   }
+    //   onBackPress(){
+    //     const backAction = NavigationActions.back({
+    //       // key:'Message'
+    //     })
+    //     this.props.navigation.dispatch(backAction);
+    //    return true;
+    //   }
     render()
     {
       var date = new Date().toString();

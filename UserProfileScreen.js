@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, StyleSheet,ActivityIndicator} from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet,ActivityIndicator,BackHandler} from 'react-native';
 import {Right,Left,Spinner} from 'native-base';
 import ParallaxView from 'react-native-parallax-view';
 import RNFetchBlob from 'react-native-fetch-blob';
@@ -114,6 +114,18 @@ setTimeout(() => firebaseApp.database().ref('user/'+userId).update({ ImageURL: t
                   })
                 })
             }
+            // componentDidMount() {
+            //   // this.listenForItems(this.chatRef);
+            //   BackHandler.addEventListener('hardwareBackPress', this.onBackPress.bind(this));
+            // }
+            // componentWillUnmount() {
+            //   BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+            //   }
+            //   onBackPress(){
+            //     const {goBack} = this.props.navigation;
+            //     goBack();
+            //    return true;
+            //   }
     render()
     {  var name;
       var Phone_No;
