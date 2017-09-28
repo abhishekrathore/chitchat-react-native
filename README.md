@@ -1,7 +1,7 @@
 # chitchat-react-native
 **This is react native chatting app**.
 
-###Follow the steps to run the project###:
+### Follow the steps to run the project:
 1. Clone the repo in your local storage.
 2. Use **npm install** for installing required modules.
 3. Connect your android device to the system in debug mode. 
