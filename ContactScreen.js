@@ -34,7 +34,8 @@ listenForItems(userRef) {
       url: child.val().ImageURL,
       phone:child.val().Phone_No,
       uid:child.val().UID,
-      _key: child.key
+      _key: child.key,
+      status:child.val().status
      
     });
  // }
@@ -73,7 +74,7 @@ componentDidMount() {
 _renderItem(Userdata) {
   const { navigate } = this.props.navigation;
   return (
-    <ListItem avatar Userdata={Userdata} style={{margin:3}} onPress={() => navigate('Message',{ username: Userdata.name,Rid:Userdata._key,phone:Userdata.phone,url:Userdata.url  })}>
+    <ListItem avatar Userdata={Userdata} style={{margin:3}} onPress={() => navigate('Message',{ Rid:Userdata._key,username: Userdata.name,status:Userdata.status,phone:Userdata.phone,url:Userdata.url  })}>
     <Left>
       <Thumbnail source={{ uri:Userdata.url  }} />
     </Left><Body>

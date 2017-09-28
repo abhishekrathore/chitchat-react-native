@@ -192,10 +192,10 @@ if(Rkey.toLowerCase()>=Ukey.toLowerCase()){
          
            <Header style={styles.header}>          
            <Left>
-           <TouchableOpacity onPress={() =>navigate('profile',{name:user.username,phone:user.phone,url:user.url})}>
+           <TouchableOpacity onPress={() =>navigate('profile',{status:user.status,name:user.username,phone:user.phone,url:user.url})}>
 <Thumbnail source={{ uri: user.url }} /></TouchableOpacity>
 </Left>
-<TouchableOpacity onPress={() =>navigate('profile',{name:user.username,phone:user.phone,url:user.url})}>
+<TouchableOpacity onPress={() =>navigate('profile',{status:user.status,name:user.username,phone:user.phone,url:user.url})}>
 
 <Body><Text style={styles.header}>{user.username}</Text></Body>
 </TouchableOpacity>
