@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, StyleSheet,ActivityIndicator,BackHandler} from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet,ActivityIndicator,BackHandler,Button, Modal,TextInput} from 'react-native';
 import {Right,Left,Spinner} from 'native-base';
 import ParallaxView from 'react-native-parallax-view';
 import RNFetchBlob from 'react-native-fetch-blob';
@@ -24,6 +24,18 @@ export default class UserProfileScreen extends React.Component {
         errors: [],
         hght:0,
         opac:0,
+        heightStatus:'auto',
+        opacityStatus:1,
+        status:'Hey, Check out the ChitChat!!',
+        editStatus:false,
+        editHeight:0,
+        editOpacity:0,
+        inputVisible:false,
+        editWidth:0,
+        penHeight:25,
+        penOpacity:1,
+        saveHeight:0,
+        saveOpacity:1
       }
       var userId = firebaseApp.auth().currentUser.uid;
       firebaseApp.database().ref().child('user').orderByChild('UID').equalTo(userId).on("value",function(snapshot) {
@@ -32,10 +44,12 @@ export default class UserProfileScreen extends React.Component {
               name = data.val().Name;
               URL= data.val().ImageURL;
               Phone_No = data.val().Phone_No;
+              status=data.val().status;
               
          });
      });
      this.state.avatarSource=URL;
+     this.state.status=status;
     }
  
     uploadPhoto(userId){
@@ -55,9 +69,11 @@ export default class UserProfileScreen extends React.Component {
                 this.setState({hght:80,
                   opac:1});
                 if (response.didCancel) {
+                  this.setState({hght:0,opac:0});
                   console.log('User cancelled image picker');
                 }
                 else if (response.error) {
+                  this.setState({hght:0,opac:0});
                   console.log('ImagePicker Error: ', response.error);
                 }
                 else if (response.customButton) {
@@ -113,19 +129,44 @@ setTimeout(() => firebaseApp.database().ref('user/'+userId).update({ ImageURL: t
                       // this.setState({hght:0,opac:0});
                   })
                 })
+            }  
+            editStatus() { this.setState({
+              inputVisible:true,
+              editStatus:true,
+              heightStatus:0,
+              editHeight:'auto',
+              editOpacity:1,
+              opacityStatus:0,
+              editWidth:'85%',
+              penHeight:0,
+              penOpacity:0,
+              saveHeight:25,
+              saveOpacity:1
+            }); }    
+            updateStatus(){
+              this.setState({
+                inputVisible:false,
+                editStatus:false,
+                heightStatus:'auto',
+                editHeight:0,
+                editOpacity:0,
+                opacityStatus:1,
+                editWidth:'0%',
+                penHeight:25,
+                penOpacity:1,
+                saveHeight:0,
+                saveOpacity:0
+              });
+              var userId = firebaseApp.auth().currentUser.uid;
+              firebaseApp.database().ref('user/'+userId).update({ status: this.state.status });
             }
-            // componentDidMount() {
-            //   // this.listenForItems(this.chatRef);
-            //   BackHandler.addEventListener('hardwareBackPress', this.onBackPress.bind(this));
-            // }
-            // componentWillUnmount() {
-            //   BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
-            //   }
-            //   onBackPress(){
-            //     const {goBack} = this.props.navigation;
-            //     goBack();
-            //    return true;
-            //   }
+    getStatus(){
+      var userId = firebaseApp.auth().currentUser.uid;
+
+    }        
+    componentDidMount(){
+
+    }
     render()
     {  var name;
       var Phone_No;
@@ -140,10 +181,6 @@ setTimeout(() => firebaseApp.database().ref('user/'+userId).update({ ImageURL: t
               
          });
      });
-    //  this.setState({
-    //   avatarSource:URL
-    // });
-     // alert(name);
         return(            
   <ParallaxView 
     backgroundSource={{ uri:this.state.avatarSource}}
@@ -168,6 +205,7 @@ setTimeout(() => firebaseApp.database().ref('user/'+userId).update({ ImageURL: t
     )}
     scrollableViewStyle={{ backgroundColor: '#ece5dd' }}
   >
+
     <View style={styles.card}>
       <View style={styles.row}>
         <Text style={styles.text}>Mute</Text>
@@ -188,7 +226,20 @@ setTimeout(() => firebaseApp.database().ref('user/'+userId).update({ ImageURL: t
     <View style={styles.card}>
       <View style={styles.row}>
         <Text style={styles.green}>Status and Phone</Text>
-        <Text style={styles.text}>Good morning !!!!!!!! </Text>
+        <View style={{flexDirection:'row'}}>
+        <Text  style={[styles.text,{width:'85%',height:this.state.heightStatus,opacity:this.state.opacityStatus}]}>{this.state.status}</Text>
+        <TouchableOpacity style={{alignSelf: 'flex-end',opacity:this.state.penOpacity}} onPress={() => { this.editStatus() }} >
+          <Icon name="edit" color="#075e54" size={this.state.penHeight} style={{ padding: 5 }}
+          />
+        </TouchableOpacity>
+        </View>
+        <View style={{flexDirection:'row'}}>
+        <TextInput multiline={true} maxLength={200} visible={this.state.inputVisible} value={this.state.status} onChangeText={(status) => this.setState({status})} editable={this.state.editStatus} style={{width:this.state.editWidth,height:this.state.editHeight,opacity:this.state.editOpacity}}/>
+        <TouchableOpacity style={{alignSelf: 'flex-end',opacity:this.state.saveOpacity}}  blurOnSubmit={true} onPress={() => { this.updateStatus() }} >
+          <Icon name="save" color="#075e54" size={this.state.saveHeight} style={{ padding: 5 }}
+          />
+        </TouchableOpacity>
+        </View>
         <Text style={styles.subText}>{date.substring(0,15)}</Text>
       </View>
       <View style={styles.number}>
@@ -236,9 +287,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   } ,
   row: {
-    height: 70,
     padding: 10,
-    justifyContent: 'center',
     borderBottomWidth: 1,
     borderColor: '#f5f5f5',
     backgroundColor: '#fff',
@@ -276,4 +325,9 @@ const styles = StyleSheet.create({
     color: '#075e54',
     fontSize: 20,
   },
+  container: {
+    alignItems: 'center',
+    backgroundColor: '#ede3f2',
+    padding: 100
+ }
 });

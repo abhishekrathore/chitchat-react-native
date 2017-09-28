@@ -162,6 +162,7 @@ export default class SignInScreen extends React.Component {
                         Email: email,
                         UID:user.uid,
                         ImageURL:avatarSource,
+                        status:"Hey, I'm using ChitChat"
                           });
                           this.setState({
                             name:'',
