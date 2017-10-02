@@ -6,6 +6,7 @@ import firebaseApp from './Firebase';
 import InvertibleScrollView from 'react-native-invertible-scroll-view';
 import { NavigationActions } from 'react-navigation'
 var user = firebaseApp.auth().currentUser;
+var senderId,receiverId;
 export default class MessageScreen extends React.Component {
   static navigationOptions = ({ navigation }) => ({
    // title: `${navigation.state.params.user}`,
@@ -26,6 +27,8 @@ export default class MessageScreen extends React.Component {
     var keyDb;
     var Rkey= this.props.navigation.state.params.Rid;
     var userId = firebaseApp.auth().currentUser.uid;
+    receiverId=Rkey;
+    senderId=userId;
     firebaseApp.database().ref().child('user').orderByChild('UID').equalTo(userId).on("value",function(snapshot) {
        
         snapshot.forEach(function(data) {
@@ -67,6 +70,9 @@ if(Rkey.toLowerCase()>=Ukey.toLowerCase()){
       receiverId:Rkey,
       read:false,
     });
+    firebaseApp.database().ref('Unread/'+Rkey+'/'+Ukey+'/').push({
+      text:message,
+    })
 
    var userRef =firebaseApp.database().ref('user/'+Ukey).child('ChatWith');
    
@@ -128,24 +134,9 @@ if(Rkey.toLowerCase()>=Ukey.toLowerCase()){
   
   componentDidMount() {
     this.listenForItems(this.chatRef);
+    firebaseApp.database().ref('Unread/'+senderId+'/'+receiverId+'/').remove();
   }
-  // componentWillMount(){
-  //   BackHandler.addEventListener('hardwareBackPress',()=>{   
-  //     if (!this.onMainScreen()) {
-  //       this.goBack();
-  //       return true;
-  //     }
-  //     return false;
-  //   });
-  // }
-  // componentWillUnmount() {
-  //   BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
-  //   return true;
-  //   }
-  //   onBackPress(){
-  //     this.props.navigation.navigate('Main');
-  //    return true;
-  //   }
+
   _renderItem(msg)
    { 
     var userId = firebaseApp.auth().currentUser.uid;
