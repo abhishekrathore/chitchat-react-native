@@ -50,26 +50,7 @@ componentDidMount() {
   this.listenForItems(this.userRef);
   // BackHandler.addEventListener('hardwareBackPress', this.onBackPress.bind(this));
 }
-// componentWillUnmount() {
-// BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
-// this.setState({
-//   count:0
-// });
-// return true;
-// }
-// onBackPress(){
-//   if(this.state.count==0){
-//   ToastAndroid.showWithGravity('Press Back again to exit', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
-//   this.setState({
-//     count:1
-//   });
-//   setTimeout(() => {this.setState({count:0})}, 3000);
-//   return true; }
-//   else{
-//  BackHandler.exitApp()
-//  return false;
-//   }
-// }
+
 
 _renderItem(Userdata) {
   const { navigate } = this.props.navigation;

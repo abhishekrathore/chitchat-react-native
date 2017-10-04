@@ -3,14 +3,18 @@ import { Text, View, TouchableOpacity, StyleSheet,ActivityIndicator,BackHandler,
 import {Right,Left,Spinner} from 'native-base';
 import ParallaxView from 'react-native-parallax-view';
 import RNFetchBlob from 'react-native-fetch-blob';
+import { StackNavigator,} from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 var ImagePicker = require('react-native-image-picker');
+import RNAppShortcuts from 'react-native-app-shortcuts'
 // Prepare Blob support
 const Blob = RNFetchBlob.polyfill.Blob
 const fs = RNFetchBlob.fs
 window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
 window.Blob = Blob
  var URL;
+ /////////
+
 export default class UserProfileScreen extends React.Component {
     static navigationOptions = ({ navigation }) => ({
      // title: `${navigation.state.params.user}`,
@@ -56,9 +60,6 @@ export default class UserProfileScreen extends React.Component {
       var pic;
       var options = {
         title: 'Select Avatar',
-        // customButtons: [
-        //   {name: 'fb', title: 'Choose Photo from Facebook'},
-        // ],
         storageOptions: {
           skipBackup: true,
           path: 'images'

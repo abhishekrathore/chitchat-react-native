@@ -65,7 +65,7 @@ pushNotify(subT,bigT,mCount,groupT){
     vibrate: false, // (optional) default: true
     vibration: 300, // vibration length in milliseconds, ignored if vibrate=false, default: 1000
     tag: 'some_tag', // (optional) add tag to message
-    group: groupT, // (optional) add group to message
+    group: 'RNS', // (optional) add group to message
     ongoing: false, // (optional) set whether this is an "ongoing" notification
 
     /* iOS and Android properties */

@@ -220,25 +220,30 @@ export default class SignInScreen extends React.Component {
     onBackPress(){
      this.props.navigation.navigate('Home');
      return true;
-    }    
+    }   
+ 
   render() {
     const { navigate } = this.props.navigation;
+    
     return (
       <Container style={{ backgroundColor:'#075e54'}}>        
          <Content><ScrollView>
-       <Image source={ require('./pics/back.png') }  />       
-      <TextInput placeholder="Name"  placeholderTextColor="white" transparent style={[styles.inputbox, this.state.namecss && styles.emptyBox]} maxLength = {15} returnKeyType="next"
-           onChangeText={(name) => this.setState({ name })}  value={this.state.name}  />
-       <TextInput placeholder="Age" placeholderTextColor="white" transparent style={[styles.inputbox, this.state.agecss && styles.emptyBox]} keyboardType='numeric' maxLength = {2} returnKeyType="next"
-           onChangeText={(age) => this.setState( {age })}  value={this.state.age}  /> 
-       <TextInput placeholder="Phone No." placeholderTextColor="white" transparent style={[styles.inputbox, this.state.phonecss && styles.emptyBox]} keyboardType='numeric' maxLength = {10} returnKeyType="next"
-          onChangeText={(phone) => this.setState({ phone })}   value={this.state.phone} /> 
-       <TextInput placeholder="Email" placeholderTextColor="white" transparent style={[styles.inputbox, this.state.emailcss && styles.emptyBox]} keyboardType="email-address" returnKeyType="next"
-           onChangeText={(email) => this.setState({ email })} value={this.state.email} />
-       <TextInput placeholder="Password" placeholderTextColor="white" secureTextEntry transparent style={[styles.inputbox, this.state.password1css && styles.emptyBox]} returnKeyType="next"
-           onChangeText={(password1) => this.setState({ password1 })} value={this.state.password1} />
-       <TextInput placeholder="Confirm Password" placeholderTextColor="white" secureTextEntry transparent style={[styles.inputbox, this.state.password2css && styles.emptyBox]} 
-           onChangeText={(password2) => this.setState({ password2 })} value={this.state.password2} />
+       <Image source={ require('./pics/back.png') } style={{alignSelf:'center'}} />       
+      <TextInput placeholder="Name" ref="name"  placeholderTextColor="white" transparent style={[styles.inputbox, this.state.namecss && styles.emptyBox]} maxLength = {15} returnKeyType="next"
+           onChangeText={(name) => this.setState({ name })}  value={this.state.name} autoFocus={true}
+           onSubmitEditing={() => this.ageInput.focus()}/>
+       <TextInput placeholder="Age" ref={(input) => { this.ageInput = input; }} placeholderTextColor="white" transparent style={[styles.inputbox, this.state.agecss && styles.emptyBox]} keyboardType='numeric' maxLength = {2} returnKeyType="next"
+           onChangeText={(age) => this.setState( {age })}  value={this.state.age} onSubmitEditing={() => this.phoneInput.focus()} /> 
+       <TextInput placeholder="Phone No." ref={(input) => { this.phoneInput = input; }} placeholderTextColor="white" transparent style={[styles.inputbox, this.state.phonecss && styles.emptyBox]} keyboardType='numeric' maxLength = {10} returnKeyType="next"
+          onChangeText={(phone) => this.setState({ phone })}   value={this.state.phone} onSubmitEditing={() => this.emailInput.focus()}/> 
+       <TextInput placeholder="Email" ref={(input) => { this.emailInput = input; }} placeholderTextColor="white" transparent style={[styles.inputbox, this.state.emailcss && styles.emptyBox]} keyboardType="email-address" returnKeyType="next"
+           onChangeText={(email) => this.setState({ email })} value={this.state.email} onSubmitEditing={() => this.psdInput.focus()} />
+       <TextInput placeholder="Password" ref={(input) => { this.psdInput = input; }} placeholderTextColor="white" secureTextEntry transparent style={[styles.inputbox, this.state.password1css && styles.emptyBox]} returnKeyType="next"
+           onChangeText={(password1) => this.setState({ password1 })} value={this.state.password1} onSubmitEditing={() => this.psd2Input.focus()} />
+       <TextInput placeholder="Confirm Password" ref={(input) => { this.psd2Input = input; }} placeholderTextColor="white" secureTextEntry transparent style={[styles.inputbox, this.state.password2css && styles.emptyBox]} 
+           onChangeText={(password2) => this.setState({ password2 })} value={this.state.password2} returnKeyType={'go'}
+           onSubmitEditing={()=>this.signup(this.state.name,this.state.age,
+                 this.state.phone,this.state.email,this.state.password1,this.state.password2,this.state.avatarSource)} />
 
            <View style={styles.overlay}>
            <ActivityIndicator
@@ -288,11 +293,9 @@ var styles = StyleSheet.create({
      inputbox: {
       textAlign: "center",
       color:'white',
-      borderColor:'white',
+      // borderColor:'white',
       fontWeight:'bold',
-      fontSize:20,
-      //borderWidth:2,
-      borderBottomWidth:2, 
+      fontSize:20, 
     },
     overlay: {
       flex: 1,

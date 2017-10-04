@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {  AppRegistry, StyleSheet, Navigator, View,Image,ToastAndroid,TextInput,ScrollView,ActivityIndicator,BackHandler} from 'react-native';
+import {  AppRegistry,StatusBar, StyleSheet, Navigator, View,Image,ToastAndroid,TextInput,ScrollView,ActivityIndicator,BackHandler} from 'react-native';
 import { Container,Body, Form, Item,Input, Label,Button, Text ,Header,
    Content,Left, Right, Icon, Toast} from 'native-base';
    import { StackNavigator,} from 'react-navigation';
@@ -99,18 +99,20 @@ onBackPress(){
   render() {
     const { navigate } = this.props.navigation;
     return (
+      
       <Container style={{ backgroundColor:'#075e54'}}>
-
       <Content>
       <ScrollView overScrollMode={'auto'}>
-      <Image source={ require('./pics/back.png') } /> 
+      <Image source={ require('./pics/back.png') } style={{alignSelf:'center'}} /> 
       {/* <Image source={{uri :'https://firebasestorage.googleapis.com/v0/b/chitchat-f147c.appspot.com/o/back.png?alt=media&token=05cc9bbe-4417-42ed-af91-dbd53cd739f9'}}/> */}
         <Text></Text>
         <Form>
         <TextInput placeholder="Email" placeholderTextColor="white" keyboardType="email-address"
-        onChangeText={(email) => this.setState({ email })}   value={this.state.email}  style={styles.inputbox} />
-        <TextInput placeholder="Password" secureTextEntry  placeholderTextColor="white" 
- onChangeText={(password) => this.setState({password})} value={this.state.password} style={styles.inputbox}/>
+        onChangeText={(email) => this.setState({ email })}   value={this.state.email}  style={styles.inputbox} returnKeyType={'next'}
+        onSubmitEditing={()=>this.pswdInput.focus()} />
+        <TextInput placeholder="Password" secureTextEntry ref={(input) => { this.pswdInput = input; }} placeholderTextColor="white" 
+ onChangeText={(password) => this.setState({password})} returnKeyType={'go'} value={this.state.password} style={styles.inputbox}
+ onSubmitEditing={()=> this.Login(this.state.email,this.state.password)}/>
              </Form> 
           <Text></Text>
              <Button rounded bordered onPress={() =>{ this.Login(this.state.email,this.state.password)}} style={styles.button}>
@@ -130,7 +132,7 @@ onBackPress(){
          
         <Text></Text>
         <View >
-        <Text  style={styles.view}>If Not Registered?</Text>
+        <Text  style={styles.view}>Not Registered?</Text>
           <Text style={styles.view}> Then Please Click on</Text>
           </View >
           <Button  rounded bordered onPress={() =>

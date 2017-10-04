@@ -13,6 +13,7 @@ import ProfileScreen from './ProfileScreen';
 import UserProfileScreen from './UserProfileScreen';
 import firebaseApp from './Firebase';
 import CallScreen from './CallScreen';
+import RNAppShortcuts from 'react-native-app-shortcuts';
 
 class TestScreen extends React.Component {  
  static navigationOptions = {
@@ -91,3 +92,4 @@ const ChitChat = StackNavigator({
  uprofile:{screen: UserProfileScreen}
 }); 
 AppRegistry.registerComponent('ChitChat', () => ChitChat);
+// AppRegistry.registerHeadlessTask('SomeTaskName', () => require('SomeTaskName'));
